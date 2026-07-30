@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bia — Consultora Virtual do banco BV | Demo ElevenLabs</title>
+  <meta name="description" content="Demo de voz com IA: Bia, consultora virtual do banco BV, apresenta a Conta BV e os Cartões BV. Projeto ElevenLabs x Accenture Song.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0b0f0a;
+      --surface: #12160f;
+      --surface-raised: #161c12;
+      --border: #232b1e;
+      --text: #eef2e8;
+      --muted: #8a9a7e;
+      --lime: #c8f251;
+      --lime-dim: rgba(200,242,81,0.12);
+      --lime-text: #1a2410;
+      --deep: #1f2e17;
+      --blue-dim: rgba(120,170,255,0.10);
+      --blue-text: #a9c6ff;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background:
+        radial-gradient(ellipse 900px 500px at 50% -10%, rgba(200,242,81,0.07), transparent),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 32px 20px 48px;
+      line-height: 1.5;
+    }
+    a { color: inherit; }
+    .wrapper { width: 100%; max-width: 560px; }
+
+    /* Header */
+    .header { display: flex; align-items: center; gap: 14px; margin-bottom: 28px; }
+    .logo-mark {
+      width: 44px; height: 44px; flex-shrink: 0;
+      background: var(--lime); color: var(--lime-text);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 15px; letter-spacing: -0.02em;
+    }
+    .header-text h1 {
+      font-family: 'Space Grotesk', sans-serif; font-weight: 600;
+      font-size: 18px; letter-spacing: -0.01em;
+    }
+    .header-text p { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+
+    /* Cards */
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 18px; overflow: hidden; margin-bottom: 16px;
+    }
+    .card-header {
+      padding: 16px 22px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-title {
+      font-size: 11px; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.07em;
+    }
+    .badge {
+      font-size: 11px; font-weight: 500; padding: 4px 10px; border-radius: 20px;
+      background: var(--lime-dim); color: var(--lime);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .badge::before {
+      content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--lime);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+    .scope-grid { padding: 18px 22px; display: flex; flex-direction: column; gap: 12px; }
+    .scope-row { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; }
+    .scope-label { font-size: 12.5px; color: var(--muted); white-space: nowrap; flex-shrink: 0; }
+    .scope-value { font-family: 'DM Mono', monospace; font-size: 12.5px; color: var(--text); text-align: right; }
+    .divider { height: 1px; background: var(--border); margin: 0 22px; }
+
+    /* Products strip - signature element */
+    .products-title {
+      font-size: 11px; font-weight: 600; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.07em; padding: 18px 22px 4px;
+    }
+    .products-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+      padding: 10px 22px 20px;
+    }
+    .product-chip {
+      background: var(--surface-raised); border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px 10px; text-align: center;
+    }
+    .product-chip .name {
+      font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 13px;
+      color: var(--lime); margin-bottom: 5px;
+    }
+    .product-chip .desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
+
+    .cta-area { padding: 4px 22px 22px; }
+    .info-box {
+      background: var(--blue-dim); border: 1px solid rgba(120,170,255,0.2); border-radius: 12px;
+      padding: 13px 15px; font-size: 12.5px; color: var(--blue-text); line-height: 1.6; margin-bottom: 16px;
+    }
+    .info-box strong { color: #cddfff; display: block; margin-bottom: 4px; }
+    .widget-wrap { display: flex; justify-content: center; padding: 4px 0; min-height: 64px; }
+
+    /* Hints */
+    .hints-card { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 20px 22px; margin-bottom: 18px; }
+    .hints-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 14px; }
+    .hints-grid { display: flex; flex-direction: column; gap: 8px; }
+    .hint {
+      display: flex; align-items: flex-start; gap: 11px; padding: 11px 13px;
+      border: 1px solid var(--border); border-radius: 11px; font-size: 12.5px; color: var(--muted); line-height: 1.5;
+    }
+    .hint-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+    .hint b { color: var(--text); display: block; margin-bottom: 2px; font-size: 12.5px; }
+
+    .footer { text-align: center; font-size: 11px; color: var(--muted); padding-top: 4px; }
+    .footer .sep { margin: 0 6px; }
+
+    a:focus-visible, button:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; border-radius: 4px; }
+
+    elevenlabs-convai { --el-primary-color: #c8f251; }
+
+    @media (max-width: 420px) {
+      .products-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+
+  <div class="header">
+    <div class="logo-mark">BV</div>
+    <div class="header-text">
+      <h1>Bia — Consultora Virtual do banco BV</h1>
+      <p>Demo de voz com IA · via Accenture Song</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">Escopo da demonstração</span>
+      <span class="badge">Agente ativo</span>
+    </div>
+    <div class="scope-grid">
+      <div class="scope-row">
+        <span class="scope-label">Produtos</span>
+        <span class="scope-value">Conta BV + Cartões BV</span>
+      </div>
+      <div class="scope-row">
+        <span class="scope-label">Canais testados</span>
+        <span class="scope-value">Voz e WhatsApp</span>
+      </div>
+      <div class="scope-row">
+        <span class="scope-label">Cliente simulado</span>
+        <span class="scope-value">Você escolhe o perfil</span>
+      </div>
+      <div class="scope-row">
+        <span class="scope-label">Sistemas reais</span>
+        <span class="scope-value">Nenhum conectado</span>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="products-title">O que a Bia compara</div>
+    <div class="products-grid">
+      <div class="product-chip">
+        <div class="name">BV Livre</div>
+        <div class="desc">Simplicidade, sem anuidade</div>
+      </div>
+      <div class="product-chip">
+        <div class="name">BV Mais</div>
+        <div class="desc">Cashback + assistências</div>
+      </div>
+      <div class="product-chip">
+        <div class="name">BV Único</div>
+        <div class="desc">Cashback maior + viagem</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="cta-area">
+      <div class="info-box">
+        <strong>Como testar</strong>
+        Clique no botão abaixo. A Bia faz o primeiro contato, como se tivesse te ligado agora — você decide, na hora, que tipo de cliente está simulando.
+      </div>
+      <div class="widget-wrap" id="widget-wrap"></div>
+    </div>
+  </div>
+
+  <div class="hints-card">
+    <div class="hints-title">Sugestões de perfis para testar</div>
+    <div class="hints-grid">
+      <div class="hint">
+        <span class="hint-icon">🏦</span>
+        <div><b>Quer conta grátis</b> Diga que busca uma conta digital sem tarifa pro dia a dia.</div>
+      </div>
+      <div class="hint">
+        <span class="hint-icon">💳</span>
+        <div><b>Só quer cartão sem anuidade</b> Deixe claro que não quer pagar nada de anuidade.</div>
+      </div>
+      <div class="hint">
+        <span class="hint-icon">💰</span>
+        <div><b>Ama cashback</b> Pergunte qual cartão dá mais cashback e como funciona.</div>
+      </div>
+      <div class="hint">
+        <span class="hint-icon">🏠</span>
+        <div><b>Já tem conta em outro banco</b> Diga que já é cliente de outro banco e não quer trocar.</div>
+      </div>
+      <div class="hint">
+        <span class="hint-icon">🔒</span>
+        <div><b>Questiona aprovação e segurança</b> Pergunte se já está aprovada, qual o limite, ou se é seguro.</div>
+      </div>
+      <div class="hint">
+        <span class="hint-icon">🙅</span>
+        <div><b>Sem interesse / quer humano</b> Diga que não tem interesse ou peça para falar com uma pessoa.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">ElevenLabs × banco BV (via Accenture Song) <span class="sep">·</span> Uso interno — ambiente de testes</div>
+
+</div>
+
+<script src="https://elevenlabs.io/convai-widget/index.js" async></script>
+<script>
+  function renderWidget() {
+    const wrap = document.getElementById('widget-wrap');
+    wrap.innerHTML = '';
+    const el = document.createElement('elevenlabs-convai');
+    el.setAttribute('agent-id', 'agent_2101kysjnwd0fftr1x7rvn9ehqdg');
+    wrap.appendChild(el);
+  }
+  renderWidget();
+</script>
+</body>
+</html>
