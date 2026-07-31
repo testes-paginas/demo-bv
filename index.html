@@ -191,7 +191,8 @@
         <strong>Como testar</strong>
         Clique no botão abaixo. O Levi faz o primeiro contato, como se tivesse te ligado agora — você decide, na hora, que tipo de cliente está simulando.
       </div>
-      <div class="widget-wrap" id="widget-wrap"></div>
+      <div class="widget-wrap" id="widget-wrap">
+  <elevenlabs-convai agent-id="agent_2101kysjnwd0fftr1x7rvn9ehqdg"></elevenlabs-convai>
     </div>
   </div>
 
@@ -225,16 +226,7 @@
 
 </div>
 
-<script src="https://elevenlabs.io/convai-widget/index.js" async></script>
-<script>
-  function renderWidget() {
-    const wrap = document.getElementById('widget-wrap');
-    wrap.innerHTML = '';
-    const el = document.createElement('elevenlabs-convai');
-    el.setAttribute('agent-id', 'agent_2101kysjnwd0fftr1x7rvn9ehqdg');
-    wrap.appendChild(el);
-  }
-  renderWidget();
+<script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 </script>
 </body>
 </html>
